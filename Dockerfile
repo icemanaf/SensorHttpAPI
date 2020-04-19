@@ -8,7 +8,7 @@ COPY . .
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=arm go build -a -o server
 
-FROM alpine:latest as final
+FROM arm32v7/alpine as final
 
 COPY --from=builder /app/server .
 
