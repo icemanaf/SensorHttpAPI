@@ -6,7 +6,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -a -o server
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=arm go build -a -o server
 
 FROM alpine:latest as final
 
