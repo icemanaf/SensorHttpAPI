@@ -2,15 +2,18 @@ FROM golang:alpine AS builder
 
 RUN apk add --no-cache gcc libc-dev
 
-WORKDIR /app
+COPY . "/go/src/github.com/icemanaf/HttpConcepts"
 
-COPY . .
+WORKDIR "/go/src/github.com/icemanaf/HttpConcepts"
 
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=arm go build -a -o server
+RUN go mod init
+
+
+RUN GO111MODULE=on CGO_ENABLED=0 GOOS=linux GOARCH=arm go build -a -o server
 
 FROM arm32v7/alpine as final
 
-COPY --from=builder /app/server .
+COPY --from=builder /go/src/github.com/icemanaf/HttpConcepts/server .
 
 EXPOSE 8080
 
